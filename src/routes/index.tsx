@@ -45,9 +45,9 @@ function Index() {
 
   return (
     <main
-      className={`flex w-full px-4 pb-6 ${
+      className={`flex w-full px-4 pb-6 pt-24 ${
         hasStarted
-          ? "min-h-[calc(100dvh-4rem)] flex-col pt-4"
+          ? "min-h-[calc(100dvh-4rem)] flex-col"
           : "min-h-[calc(100dvh-4rem)] flex-col items-center justify-center"
       }`}
     >
