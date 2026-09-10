@@ -211,20 +211,20 @@
 @utility agent-hero {
   text-align: center;
   & h1 {
-    font-size: clamp(1.75rem, 4vw, 2.6rem);
-    line-height: 1.1;
+    font-size: clamp(1.55rem, 3.2vw, 2.1rem);
+    line-height: 1.12;
     font-weight: 700;
   }
   & > p:last-child {
-    margin-top: .75rem;
+    margin-top: .7rem;
     color: var(--color-muted-foreground);
-    font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+    font-size: clamp(0.88rem, 1.35vw, 0.98rem);
   }
   & .eyebrow {
     display: inline-flex;
     align-items: center;
     gap: .45rem;
-    margin-bottom: .9rem;
+    margin-bottom: .85rem;
   }
 }
 
@@ -234,11 +234,11 @@
   left: 50%;
   top: 50%;
   z-index: -1;
-  width: 130%;
-  height: 170%;
+  width: 140%;
+  height: 180%;
   transform: translate(-50%, -55%);
-  background: radial-gradient(circle at 50% 35%, oklch(0.32 0.1 264 / 0.24), oklch(0.45 0.16 285 / 0.12) 50%, transparent 72%);
-  filter: blur(44px);
+  background: radial-gradient(circle at 50% 40%, oklch(0.42 0.09 260 / 0.2), oklch(0.52 0.12 285 / 0.12) 52%, transparent 74%);
+  filter: blur(48px);
 }
 
 @utility compact-chat {
