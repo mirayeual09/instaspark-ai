@@ -83,7 +83,7 @@ function Index() {
         </div>
       )}
 
-      <div className="mx-auto mt-auto w-full max-w-xl">
+      <div className={`mx-auto w-full max-w-xl ${hasStarted ? "mt-auto" : ""}`}>
         <div className="flex items-end gap-2 rounded-3xl border border-border bg-surface-raised px-4 py-3 shadow-lg">
           <Textarea
             aria-label="Marketing request"
