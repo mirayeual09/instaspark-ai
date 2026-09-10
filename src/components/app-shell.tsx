@@ -1,6 +1,6 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { BarChart3, Bot, CalendarDays, LogOut, Newspaper, Sparkles, UserRound, X } from "lucide-react";
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 
 const items = [
   { label: "AI Agent", to: "/" as const, icon: Bot },
@@ -16,11 +16,27 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const router = useRouterState();
+  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [pillStyle, setPillStyle] = useState({ left: 0, width: 0, opacity: 0 });
 
   useEffect(() => {
     const saved = localStorage.getItem("mira-session");
     if (saved) setSession(JSON.parse(saved));
   }, []);
+
+  useEffect(() => {
+    const idx = items.findIndex((item) => {
+      if (item.to === "/") return router.location.pathname === "/";
+      return router.location.pathname.startsWith(item.to);
+    });
+    const el = linkRefs.current[idx];
+    if (el) {
+      setPillStyle({ left: el.offsetLeft, width: el.offsetWidth, opacity: 1 });
+    } else {
+      setPillStyle((s) => ({ ...s, opacity: 0 }));
+    }
+  }, [router.location.pathname]);
 
   function handleLogin(event: FormEvent) {
     event.preventDefault();
@@ -40,20 +56,53 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return <div className="min-h-screen bg-background">
     <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-4">
-      <div className="flex w-full max-w-5xl items-center gap-2 rounded-full border border-border bg-background/90 p-1.5 shadow-[0_12px_40px_color-mix(in_oklab,var(--foreground)_9%,transparent)] backdrop-blur-xl">
-        <Link to="/" className="ml-2 mr-auto flex items-center gap-2 font-display text-sm font-bold"><span className="grid size-8 place-items-center rounded-full bg-primary text-primary-foreground"><Sparkles className="size-4" /></span><span className="hidden sm:inline">Mira</span></Link>
-        <nav aria-label="Primary" className="flex min-w-0 items-center gap-1">
-          {items.map(({ label, to, icon: Icon }) => <Link key={to} to={to} activeOptions={{ exact: to === "/" }} className="nav-link" activeProps={{ className: "nav-link nav-link-active" }}><Icon /><span className="hidden md:inline">{label}</span></Link>)}
+      <div className="grid w-full max-w-5xl grid-cols-[1fr_auto_1fr] items-center gap-2 rounded-full border border-border bg-background/90 p-1.5 shadow-[0_12px_40px_color-mix(in_oklab,var(--foreground)_9%,transparent)] backdrop-blur-xl">
+        <div className="flex items-center gap-2 pl-1">
+          <button
+            type="button"
+            aria-label={session ? "Open profile" : "Log in"}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="group flex items-center gap-2 rounded-full p-1 transition-colors hover:bg-accent/60"
+          >
+            {session ? (
+              <>
+                <span className="grid size-8 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">{initials}</span>
+                <span className="hidden text-sm font-semibold text-foreground sm:inline">{session.name}</span>
+              </>
+            ) : (
+              <span className="grid size-9 place-items-center rounded-full border border-border bg-muted text-foreground transition-colors group-hover:bg-accent">
+                <UserRound className="size-4" />
+              </span>
+            )}
+          </button>
+          <Link to="/" className="flex items-center gap-2 font-display text-sm font-bold">
+            <span className="grid size-8 place-items-center rounded-full bg-primary text-primary-foreground"><Sparkles className="size-4" /></span>
+            <span className="hidden sm:inline">Mira</span>
+          </Link>
+        </div>
+
+        <nav aria-label="Primary" className="relative flex min-w-0 items-center gap-1">
+          <span
+            aria-hidden="true"
+            className="nav-pill"
+            style={{ left: pillStyle.left, width: pillStyle.width, opacity: pillStyle.opacity }}
+          />
+          {items.map(({ label, to, icon: Icon }, i) => (
+            <Link
+              key={to}
+              ref={(el) => { linkRefs.current[i] = el; }}
+              to={to}
+              activeOptions={{ exact: to === "/" }}
+              className="nav-link"
+              activeProps={{ className: "nav-link nav-link-active" }}
+            >
+              <Icon /><span className="hidden md:inline">{label}</span>
+            </Link>
+          ))}
         </nav>
-        <button
-          type="button"
-          aria-label={session ? "Open profile" : "Log in"}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="ml-1 grid size-9 shrink-0 place-items-center rounded-full border border-border bg-muted text-xs font-bold text-foreground transition-colors hover:bg-accent"
-        >
-          {session ? initials : <UserRound className="size-4" />}
-        </button>
+
+        <div />
       </div>
     </header>
 
