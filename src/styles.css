@@ -209,6 +209,8 @@
 }
 
 @utility agent-hero {
+  position: relative;
+  isolation: isolate;
   text-align: center;
   & h1 {
     font-size: clamp(1.55rem, 3.2vw, 2.1rem);
@@ -234,11 +236,11 @@
   left: 50%;
   top: 50%;
   z-index: -1;
-  width: 140%;
-  height: 180%;
+  width: 160%;
+  height: 220%;
   transform: translate(-50%, -55%);
-  background: radial-gradient(circle at 50% 40%, oklch(0.42 0.09 260 / 0.2), oklch(0.52 0.12 285 / 0.12) 52%, transparent 74%);
-  filter: blur(48px);
+  background: radial-gradient(circle at 50% 35%, oklch(0.35 0.12 264 / 0.32), oklch(0.5 0.15 285 / 0.18) 50%, transparent 72%);
+  filter: blur(56px);
 }
 
 @utility compact-chat {
