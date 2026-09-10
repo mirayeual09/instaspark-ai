@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { BarChart3, Bot, CalendarDays, LogOut, Newspaper, Sparkles, UserRound, X } from "lucide-react";
+import { BarChart3, Bot, CalendarDays, LogOut, Newspaper, UserRound, X } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 
 const items = [
