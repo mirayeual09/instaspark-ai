@@ -10,7 +10,7 @@ export const Route = createFileRoute("/planner")({
   ]}), component: PlannerPage,
 });
 
-const days = [
+const days: Array<{ day: string; date: string; items: Array<[string, "Draft" | "Scheduled" | "Published"]> }> = [
   { day:'Mon',date:'7',items:[['Morning routine reel','Published']] },
   { day:'Tue',date:'8',items:[['Founder lesson carousel','Scheduled'],['Community Q&A','Draft']] },
   { day:'Wed',date:'9',items:[] },
